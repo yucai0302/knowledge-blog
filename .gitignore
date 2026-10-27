@@ -19,6 +19,9 @@ build/
 .agents/
 .claude/
 
+# Local upload-skill credentials
+skills/blog-upload/config.json
+
 # Logs
 npm-debug.log*
 yarn-debug.log*

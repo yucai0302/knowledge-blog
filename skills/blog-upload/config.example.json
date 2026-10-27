@@ -1,0 +1,4 @@
+{
+  "baseUrl": "https://your-app-domain.example.com/app/your-app-id",
+  "token": "your-admin-token"
+}

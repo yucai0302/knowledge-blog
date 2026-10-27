@@ -56,6 +56,22 @@ curl -X POST "https://<your-app-domain>/app/<app-id>/api/admin/posts" \
   }'
 ```
 
+## 配套上传 Skill
+
+`skills/blog-upload/` 是一个把本地文件发到博客的 Skill（Trae / Claude Code 等 Agent 可直接调用），也可以当普通 Node 脚本用：
+
+```bash
+# 指向你自己的博客与 Token
+export BLOG_BASE_URL="https://<your-app-domain>/app/<your-app-id>"
+export BLOG_ADMIN_TOKEN="<your admin token>"
+
+node skills/blog-upload/scripts/upload.mjs ./my-post.md --slug my-post --category notes
+```
+
+- 按扩展名自动判类型：`.md` 走前端渲染，`.html` 原样直出
+- 自动提取标题 / 摘要 / slug，同 slug 重复上传即覆盖更新
+- 正文里的本地图片会自动上传到对象存储并替换成公网 URL
+
 ## 快速开始
 
 前置条件：Node.js ≥ 22、npm ≥ 10，以及一个妙搭应用（提供 PostgreSQL 与对象存储）。
@@ -106,6 +122,7 @@ server/                 NestJS 后端
   modules/uploads/      图片上传到对象存储
   database/schema.ts    Drizzle 表结构
 shared/api.interface.ts 前后端共享类型
+skills/blog-upload/     文章上传 Skill（Agent 可用，也支持命令行）
 docs/screenshots/       README 截图
 scripts/                开发与构建脚本
 ```
@@ -174,6 +191,22 @@ curl -X POST "https://<your-app-domain>/app/<app-id>/api/admin/posts" \
   }'
 ```
 
+## Upload skill
+
+`skills/blog-upload/` is a skill that publishes local files to this blog (usable from Trae / Claude Code and other agents, or as a plain Node script):
+
+```bash
+# Point it at your own blog and token
+export BLOG_BASE_URL="https://<your-app-domain>/app/<your-app-id>"
+export BLOG_ADMIN_TOKEN="<your admin token>"
+
+node skills/blog-upload/scripts/upload.mjs ./my-post.md --slug my-post --category notes
+```
+
+- Detects the type from the extension: `.md` is rendered by the front end, `.html` is served as-is
+- Extracts title / summary / slug automatically; re-uploading the same slug updates it
+- Local images in the body are uploaded to object storage and rewritten to public URLs
+
 ## Quick start
 
 Requirements: Node.js ≥ 22, npm ≥ 10, and a Miaoda app (PostgreSQL + object storage).
@@ -224,6 +257,7 @@ server/                 NestJS back end
   modules/uploads/      image upload to object storage
   database/schema.ts    Drizzle schema
 shared/api.interface.ts shared types
+skills/blog-upload/     upload skill (agent-friendly, also a CLI script)
 docs/screenshots/       README screenshots
 scripts/                dev and build scripts
 ```
